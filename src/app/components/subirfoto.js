@@ -109,7 +109,7 @@ const SubirFoto = ({ setForm, form, field, title }) => {
         {chooseButton}
 
         <div className="flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / 1 MB</span>
+          <span>{formatedValue} / 3 MB</span>
           <ProgressBar
             value={value}
             showValue={false}
@@ -141,7 +141,7 @@ const SubirFoto = ({ setForm, form, field, title }) => {
         auto
         uploadHandler={imgUploader}
         multiple={false}
-        maxFileSize={1000000}
+        maxFileSize={3000000}
         chooseOptions={chooseOptions}
         onClear={onTemplateClear}
         onSelect={onTemplateSelect}
