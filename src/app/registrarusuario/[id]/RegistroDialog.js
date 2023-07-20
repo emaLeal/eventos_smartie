@@ -27,6 +27,9 @@ const RegistroDialog = ({ visible, onHide, data }) => {
   const onSubmit = () => {
     fetch("/api/registrarparticipante", {
       body: JSON.stringify(participanteData),
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
       method: "PUT",
     }).then((res) => {
       if (res.ok) {
