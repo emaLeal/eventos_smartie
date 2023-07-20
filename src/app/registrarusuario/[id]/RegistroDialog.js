@@ -25,7 +25,7 @@ const RegistroDialog = ({ visible, onHide, data }) => {
   }, [data]);
 
   const onSubmit = () => {
-    fetch("http://localhost:3000/api/registrarparticipante", {
+    fetch("/api/registrarparticipante", {
       body: JSON.stringify(participanteData),
       method: "PUT",
     }).then((res) => {
