@@ -36,7 +36,7 @@ export default async function RegistrarUsuarioPage({ params }) {
       </div>
       <div className="flex justify-center">
         <Image
-          src={`/api/foto${data.data.foto_evento}`}
+          src={`http://localhost:3000/api/foto${data.data.foto_evento}`}
           width={200}
           height={200}
           alt={data.data.nombre_evento}
