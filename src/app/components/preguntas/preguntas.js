@@ -4,10 +4,15 @@ import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
+import EntrarLobby from './EntrarLobby'
+import IngresadoLobby from './IngresadoLobby'
+import RespuestaLobby from './RespuestaLobby'
+import Respondido from './Respondido'
+import Resultado from './Resultado'
 
 const socket = io('http://localhost:3060')
 
-const SocketComponent = () => {
+const PreguntasComponent = () => {
   const [lobbyId, setLobbyId] = useState('')
   const [cedula, setCedula] = useState('')
   const [error, setError] = useState(null)
@@ -15,7 +20,8 @@ const SocketComponent = () => {
   const [datosSorteo, setDatosSorteo] = useState(null)
   const [respuesta, setRespuesta] = useState(null)
   const [finished, setFinished] = useState(null)
-  const [pagina, setPagina] = useState('iniciar')
+  const [pagina, setPagina] = useState('entrar')
+  const [user, setUser] = useState(null)
 
   const entrarLobby = () => {
     socket.emit('joinLobby', { lobbyId, cedula })
@@ -23,20 +29,31 @@ const SocketComponent = () => {
 
   const dejarLobby = () => {
     const user = JSON.parse(localStorage.getItem('socketUser'))
+    socket.emit('leaveLobby', user)
     localStorage.removeItem('socketUser')
     setSuccess(false)
     setLobbyId('')
     setCedula('')
+    setPagina('entrar')
   }
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('socketUser'))
-    const response = {
-      ...user,
-      respuesta,
-      datosSorteo
+    if (finished !== null) {
+      localStorage.removeItem('socketUser')
     }
-    socket.emit('recieveResponse', response)
+  }, [finished])
+
+  useEffect(() => {
+    if (respuesta !== null) {
+      const user = JSON.parse(localStorage.getItem('socketUser'))
+      const response = {
+        ...user,
+        respuesta,
+        datosSorteo
+      }
+      socket.emit('recieveResponse', response)
+      setPagina('respondido')
+    }
   }, [respuesta])
 
   socket.on('joinedLobby', user => {
@@ -49,6 +66,8 @@ const SocketComponent = () => {
     } else {
       setSuccess(true)
       setError(null)
+      setPagina('ingresado')
+      setUser(user)
       localStorage.setItem('socketUser', JSON.stringify(user))
     }
   })
@@ -90,46 +109,27 @@ const SocketComponent = () => {
 
   return (
     <>
-      {pagina === 'iniciar' && (
-        <>
-          <InputText
-            value={lobbyId}
-            onChange={e => {
-              setLobbyId(e.target.value)
-            }}
-            placeholder='LobbyID'
-          />
-          <InputText
-            value={cedula}
-            onChange={e => {
-              setCedula(e.target.value)
-            }}
-            placeholder='Cedula'
-          />
-          <Button label='Entrar' onClick={entrarLobby} />
-          <Button label='Salir' onClick={dejarLobby} />
-          {error && <label>{error}</label>}
-          {success && <label>Entraste al lobby {lobbyId}</label>}
-        </>
+      {pagina === 'entrar' && (
+        <EntrarLobby
+          lobbyId={lobbyId}
+          setLobbyId={setLobbyId}
+          cedula={cedula}
+          error={error}
+          success={success}
+          setCedula={setCedula}
+          entrarLobby={entrarLobby}
+        />
+      )}
+      {pagina === 'ingresado' && (
+        <IngresadoLobby user={user} dejarLobby={dejarLobby} />
       )}
       {pagina === 'sorteo' && (
-        <>
-          <label>¿{datosSorteo.pregunta}?</label>
-          <Button label={datosSorteo.opcion1} onClick={() => setRespuesta(1)} />
-          <Button label={datosSorteo.opcion2} onClick={() => setRespuesta(2)} />
-          <Button label={datosSorteo.opcion3} onClick={() => setRespuesta(3)} />
-          <Button label={datosSorteo.opcion4} onClick={() => setRespuesta(4)} />
-        </>
+        <RespuestaLobby datosSorteo={datosSorteo} setRespuesta={setRespuesta} />
       )}
-      {pagina === 'finalizar' && (
-        <>
-          <label>Finalizar Sorteo</label>
-          {finished.acertado && <label>Respuesta Correcta</label>}
-          {finished.acertado === false && <label>Respuesta Incorrecta</label>}
-        </>
-      )}
+      {pagina === 'respondido' && <Respondido />}
+      {pagina === 'finalizar' && <Resultado finished={finished} />}
     </>
   )
 }
 
-export default SocketComponent
+export default PreguntasComponent

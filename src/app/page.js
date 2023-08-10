@@ -1,7 +1,7 @@
 import Link from "next/link";
-import ButtonComponent from "./components/ButtonComponent";
 import logo from "/public/logo.png";
 import Image from "next/image";
+import ButtonComponent from "./components/preguntas/ButtonComponent";
 
 export default function Home() {
   return (

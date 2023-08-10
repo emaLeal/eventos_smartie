@@ -1,5 +1,5 @@
-import SocketComponent from "../components/socket";
+import PreguntasComponent from "../components/preguntas/preguntas";
 
 export default async function SocketPage() {
-  return <SocketComponent />
+  return <PreguntasComponent />
 }
