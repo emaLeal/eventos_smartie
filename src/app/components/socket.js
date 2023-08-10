@@ -24,7 +24,6 @@ const SocketComponent = () => {
   const dejarLobby = () => {
     const user = JSON.parse(localStorage.getItem('socketUser'))
     localStorage.removeItem('socketUser')
-    socket.emit('leaveLobby', user)
     setSuccess(false)
     setLobbyId('')
     setCedula('')
@@ -58,6 +57,15 @@ const SocketComponent = () => {
     console.log(data)
     setPagina('sorteo')
     setDatosSorteo(data)
+  })
+
+  socket.on('LobbieDeleted', data => {
+    console.log(data)
+    setPagina('iniciar')
+    setLobbyId('')
+    setSuccess(false)
+    setError(null)
+    setCedula('')
   })
 
   socket.on('joinError', data => {
