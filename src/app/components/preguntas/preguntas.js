@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { Button } from 'primereact/button'
-import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import EntrarLobby from './EntrarLobby'
@@ -10,7 +8,7 @@ import RespuestaLobby from './RespuestaLobby'
 import Respondido from './Respondido'
 import Resultado from './Resultado'
 
-const socket = io('https://socket.smartie.com.co')
+const socket = io('http://localhost:3060')
 
 const PreguntasComponent = () => {
   const [lobbyId, setLobbyId] = useState('')
@@ -73,18 +71,17 @@ const PreguntasComponent = () => {
   })
 
   socket.on('startedTournament', data => {
-    console.log(data)
     setPagina('sorteo')
     setDatosSorteo(data)
   })
 
   socket.on('LobbieDeleted', data => {
-    console.log(data)
-    setPagina('iniciar')
+    setPagina('entrar')
     setLobbyId('')
     setSuccess(false)
     setError(null)
     setCedula('')
+    localStorage.removeItem('socketUser')
   })
 
   socket.on('joinError', data => {
@@ -100,7 +97,6 @@ const PreguntasComponent = () => {
   useEffect(() => {
     if (localStorage.getItem('socketUser')) {
       const user = JSON.parse(localStorage.getItem('socketUser'))
-      console.log(user)
       socket.emit('leaveLobby', user)
 
       socket.emit('joinLobby', user)
