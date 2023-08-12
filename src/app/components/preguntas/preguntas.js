@@ -8,7 +8,7 @@ import RespuestaLobby from './RespuestaLobby'
 import Respondido from './Respondido'
 import Resultado from './Resultado'
 
-const socket = io('http://localhost:3060')
+const socket = io('https://socket.smartie.com.co')
 
 const PreguntasComponent = () => {
   const [lobbyId, setLobbyId] = useState('')
