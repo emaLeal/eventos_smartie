@@ -1,6 +1,6 @@
-import { Button } from 'primereact/button'
-import { InputText } from 'primereact/inputtext'
-import React from 'react'
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import React from "react";
 
 const EntrarLobby = ({
   lobbyId,
@@ -9,36 +9,36 @@ const EntrarLobby = ({
   setCedula,
   entrarLobby,
   error,
-  success
+  success,
 }) => {
   return (
     <>
-      <h1 className='text-center font-bold text-lg'>Ingresar a un Sorteo</h1>
-      <div className='flex items-center justify-center flex-column h-screen'>
-        <div className='bg-slate-800 p-2 border border-white mb-20'>
-          <div className='underline underline-offset-4 font-500 [hover]'>
-            <span className='text-lg'>Ingresar a un lobby</span>
+      <h1 className="text-center font-bold text-lg">Ingresar a un Sorteo</h1>
+      <div className="flex items-center justify-center flex-column h-screen">
+        <div className="bg-slate-800 p-2 border border-white mb-20">
+          <div className="underline underline-offset-4 font-500 [hover]">
+            <span className="text-lg">Ingresar a un lobby</span>
           </div>
           <InputText
             value={lobbyId}
-            onChange={e => {
-              setLobbyId(e.target.value)
+            onChange={(e) => {
+              setLobbyId(e.target.value);
             }}
-            placeholder='Pin del Lobby'
-            className='my-2 w-full'
+            placeholder="Pin del Lobby"
+            className="my-2 w-full"
           />
           <InputText
             value={cedula}
-            onChange={e => {
-              setCedula(e.target.value)
+            onChange={(e) => {
+              setCedula(e.target.value);
             }}
-            placeholder='Tu Cedula'
-            className='my-2 w-full'
+            placeholder="Tu Cedula"
+            className="my-2 w-full"
           />
           <Button
-            label='Entrar'
-            className='my-2'
-            severity='secondary'
+            label="Entrar"
+            className="my-2"
+            severity="secondary"
             onClick={entrarLobby}
           />
           {error && <label>{error}</label>}
@@ -46,7 +46,7 @@ const EntrarLobby = ({
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default EntrarLobby
+export default EntrarLobby;
