@@ -28,7 +28,7 @@ const PreguntasComponent = () => {
   const dejarLobby = () => {
     const user = JSON.parse(localStorage.getItem("socketUser"));
     socket.emit("leaveLobby", user);
-    localStorage.removeItem("socketUser");
+    sessionStorage.removeItem("socketUser");
     setSuccess(false);
     setLobbyId("");
     setCedula("");
@@ -37,13 +37,13 @@ const PreguntasComponent = () => {
 
   useEffect(() => {
     if (finished !== null) {
-      localStorage.removeItem("socketUser");
+      sessionStorage.removeItem("socketUser");
     }
   }, [finished]);
 
   useEffect(() => {
     if (respuesta !== null) {
-      const user = JSON.parse(localStorage.getItem("socketUser"));
+      const user = JSON.parse(sessionStorage.getItem("socketUser"));
       const response = {
         ...user,
         respuesta,
@@ -57,7 +57,7 @@ const PreguntasComponent = () => {
   socket.on("joinedLobby", (user) => {
     if (user === "No encontrado") {
       if (localStorage.getItem("socketUser")) {
-        localStorage.removeItem("socketUser");
+        localStorage.sessionStorage("socketUser");
       } else {
         setError("Error, no lobby encontrado");
       }
@@ -66,7 +66,7 @@ const PreguntasComponent = () => {
       setError(null);
       setPagina("ingresado");
       setUser(user);
-      localStorage.setItem("socketUser", JSON.stringify(user));
+      sessionStorage.setItem("socketUser", JSON.stringify(user));
     }
   });
 
@@ -81,7 +81,7 @@ const PreguntasComponent = () => {
     setSuccess(false);
     setError(null);
     setCedula("");
-    localStorage.removeItem("socketUser");
+    sessionStorage.removeItem("socketUser");
   });
 
   socket.on("joinError", (data) => {
@@ -96,7 +96,7 @@ const PreguntasComponent = () => {
 
   useEffect(() => {
     if (localStorage.getItem("socketUser")) {
-      const user = JSON.parse(localStorage.getItem("socketUser"));
+      const user = JSON.parse(sessionStorage.getItem("socketUser"));
       socket.emit("leaveLobby", user);
 
       socket.emit("joinLobby", user);
