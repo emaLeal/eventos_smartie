@@ -1,5 +1,5 @@
 "use client";
-import SubirFoto from "@/app/components/subirfoto";
+import SubirFoto from "@/components/subirfoto";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";

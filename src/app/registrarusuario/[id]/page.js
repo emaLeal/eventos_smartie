@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FormRegistro from "./FormRegistro";
+import FormRegistro from "@/components/registrarusuario/FormRegistro";
 
 async function getData(id) {
   const res = await fetch(`http://localhost:3000/api/eventos/${id}`, {
