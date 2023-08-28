@@ -58,7 +58,7 @@ const SubirFoto = ({ setForm, form, field, title }) => {
             <Button
               type="button"
               icon="pi pi-times"
-              className="p-button-outlined p-button-rounded p-button-danger w-1"
+              className="p-button-outlined p-button-rounded p-button-danger w-2"
               onClick={() => onTemplateRemove(file, props.onRemove)}
             />
           </div>
