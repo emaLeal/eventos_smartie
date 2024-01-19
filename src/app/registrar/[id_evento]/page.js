@@ -39,7 +39,7 @@ export default async function RegistrarPage({ params }) {
         <span className="font-bold text-lg text-center">
           Rellena este formulario para poder registrarte en el sorteo
         </span>
-        <FormRegistroParticipante />
+        <FormRegistroParticipante id_evento={id_evento}/>
       </div>
     </>
   );

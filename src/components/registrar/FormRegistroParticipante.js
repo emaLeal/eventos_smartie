@@ -10,14 +10,23 @@ const initialForm = {
   correo: "",
 };
 
-const FormRegistro = () => {
+const FormRegistro = ({ id_evento }) => {
   const [form, setForm] = useState(initialForm);
 
-  const onSubmit = async () => {
-    const url = ``;
-    const res = await fetch(url);
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const url = `/api/dato_evento`;
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ ...form, evento_id: id_evento }),
+    });
     if (res.ok) {
+      console.log("suces");
     }
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   return (
@@ -29,6 +38,7 @@ const FormRegistro = () => {
             name="nombre"
             placeholder="Ingresa tu Nombre"
             className="w-full"
+            onChange={handleChange}
           />
           <label htmlFor="nombre">Nombre*</label>
         </span>
@@ -40,6 +50,7 @@ const FormRegistro = () => {
             name="cedula"
             placeholder="Ingresa tu Cedula"
             className="w-full"
+            onChange={handleChange}
           />
           <label htmlFor="cedula">Cedula*</label>
         </span>
@@ -51,8 +62,11 @@ const FormRegistro = () => {
             name="recibo"
             placeholder="Ingresa el recibo de tu factura"
             className="w-full"
+            onChange={handleChange}
           />
-          <label htmlFor="recibo">Recibo de factura*</label>
+          <label htmlFor="recibo">
+            Recibo de factura(si no aplica escribe tu cargo)*
+          </label>
         </span>
       </div>
       <div className="field my-4">
@@ -62,6 +76,7 @@ const FormRegistro = () => {
             name="correo"
             placeholder="Ingresa tu Correo"
             className="w-full"
+            onChange={handleChange}
           />
           <label htmlFor="correo">Correo*</label>
         </span>
