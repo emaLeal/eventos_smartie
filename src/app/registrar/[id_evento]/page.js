@@ -4,7 +4,7 @@ import logo from "/public/logo.png";
 import Image from "next/image";
 
 async function getData(id) {
-  const url = `http://localhost:8080/api/dato_evento/${id}`;
+  const url = `http://eventos.smartie.com.co/api/dato_evento/${id}`;
 
   const res = await fetch(url);
 
