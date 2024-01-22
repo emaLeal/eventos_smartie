@@ -22,6 +22,7 @@ const FormRegistro = ({ id_evento }) => {
     });
     if (res.ok) {
       console.log("suces");
+      alert('Te has registrado correctamente')
     }
   };
 
