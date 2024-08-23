@@ -1,7 +1,7 @@
 import Image from "next/image";
-import FormRegistro from "./FormRegistro";
+import FormRegistro from "@/components/registrarusuario/FormRegistro";
 
-export async function getData(id) {
+async function getData(id) {
   const res = await fetch(`http://localhost:3000/api/eventos/${id}`, {
     cache: "no-store",
   });
@@ -11,7 +11,7 @@ export async function getData(id) {
   return json;
 }
 
-export async function getParticipantes(id) {
+async function getParticipantes(id) {
   const res = await fetch(
     `http://localhost:3000/api/participante/${id}`,
     {
