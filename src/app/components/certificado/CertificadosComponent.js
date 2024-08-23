@@ -4,7 +4,7 @@ import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import React, { useEffect, useState } from "react";
-import Template from "@/app/lib/template";
+import Template from "@/lib/template";
 
 const CertificadosComponent = ({
   participantes,
