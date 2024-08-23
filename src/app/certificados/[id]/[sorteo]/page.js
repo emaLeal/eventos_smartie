@@ -2,7 +2,7 @@ import CertificadosSorteoComponent from "@/app/components/certificado/Certificad
 import Link from "next/link";
 import logo from "/public/logo.png";
 import Image from "next/image";
-import ButtonComponent from "@/app/components/preguntas/ButtonComponent";
+import ButtonComponent from "@/components/preguntas/ButtonComponent";
 
 async function getDatosEvento(id) {
   const url = `https://admin.smartie.com.co/api/eventos/${id}`;
