@@ -15,7 +15,7 @@ async function getParticipantesData(id) {
 }
 
 async function getEventoData(id) {
-  const url = `https://admin.smartie.com.co/api/eventos/${id}`;
+  const url = `http://localhost:3000/api/eventos/${id}`;
   const res = await fetch(url, { next: { revalidate: 15 } });
   if (res.ok) {
     const json = await res.json();
@@ -27,20 +27,32 @@ async function getEventoData(id) {
 export default async function CertificadosPage({ params }) {
   const { id } = params;
   const data = await getParticipantesData(id);
-  const { nombre_evento, empresa } = await getEventoData(id);
+  const { nombre_evento, empresa, foto_evento } = await getEventoData(id);
+  const formatedUrlPhoto = foto_evento.replaceAll(" ", "%20")
+  const urlImage = `http://localhost:3000/api/foto${formatedUrlPhoto}`
+  console.log(urlImage)
   return (
     <>
-      <div className="w-full flex justify-between h-20">
-        <Image src={logo} alt="Logo" width={100} height={100} />
-        <Link href={"/participar"}>
-          <ButtonComponent />
-        </Link>
+      <div
+        style={{
+          backgroundImage: `url(${urlImage})`,
+          backgroundRepeat: 'no-repeat,',
+          backgroundSize: 'cover',
+          height: '100vh'
+        }}
+      >
+        <div className="w-full flex justify-between h-20">
+          <Image src={logo} alt="Logo" width={100} height={100} />
+          <Link href={"/participar"}>
+            <ButtonComponent />
+          </Link>
+        </div>
+        <CertificadosComponent
+          participantes={data.data}
+          nombre_empresa={empresa}
+          nombre_evento={nombre_evento}
+        />
       </div>
-      <CertificadosComponent
-        participantes={data.data}
-        nombre_empresa={empresa}
-        nombre_evento={nombre_evento}
-      />
     </>
   );
 }
