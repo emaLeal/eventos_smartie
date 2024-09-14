@@ -36,13 +36,7 @@ const CertificadosComponent = ({
 
   return (
     <>
-      <section className="my-24 mx-24 text-center">
-        <h4 className="font-bold text-black text-xl sm:text-3xl">
-          BIENVENIDO AL REGISTRO PARA {nombre_evento}!!!, POR FAVOR INGRESA TU
-          CEDULA PARA PODER DESCARGAR TU CERTIFICADO DE PARTICIPANTE
-        </h4>
-      </section>
-      <section className="flex justify-center">
+      <section className="flex justify-center my-48">
         <InputText
           placeholder="Cedula"
           value={cedula}
@@ -53,7 +47,6 @@ const CertificadosComponent = ({
           onClick={() => buscarParticipante()}
           label="Buscar"
           icon="pi pi-search"
-          
           raised
           severity="secondary"
           className="mx-2"

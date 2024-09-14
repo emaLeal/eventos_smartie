@@ -28,17 +28,19 @@ export default async function CertificadosPage({ params }) {
   const { id } = params;
   const data = await getParticipantesData(id);
   const { nombre_evento, empresa, foto_evento } = await getEventoData(id);
-  const formatedUrlPhoto = foto_evento.replaceAll(" ", "%20")
-  const urlImage = `https://admin.smartie.com.co/api/foto${formatedUrlPhoto}`
-  console.log(urlImage)
+  const formatedUrlPhoto = foto_evento.replaceAll(" ", "%20");
+  const urlImage = `https://admin.smartie.com.co/api/foto${formatedUrlPhoto}`;
+  console.log(urlImage);
   return (
     <>
       <div
         style={{
           backgroundImage: `url(${urlImage})`,
-          backgroundRepeat: 'no-repeat,',
-          backgroundSize: 'cover',
-          height: '100vh'
+          backgroundRepeat: "no-repeat,",
+          backgroundSize: "cover",
+          width: "100vw",
+          backgroundPosition: "center, center",
+          height: "100vh",
         }}
       >
         <div className="w-full flex justify-between h-20">
