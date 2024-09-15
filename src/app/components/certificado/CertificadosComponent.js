@@ -10,6 +10,11 @@ const CertificadosComponent = ({
   participantes,
   nombre_empresa,
   nombre_evento,
+  foto_empresa,
+  fondo_color,
+  fuente_color,
+  borde_color,
+  fondo_campos,
 }) => {
   const [participante, setParticipante] = useState(null);
   const [cedula, setCedula] = useState();
@@ -69,6 +74,11 @@ const CertificadosComponent = ({
                       participante={participante}
                       nombre_evento={nombre_evento}
                       nombre_empresa={nombre_empresa}
+                      foto_empresa={foto_empresa}
+                      fondo_color={fondo_color}
+                      fuente_color={fuente_color}
+                      borde_color={borde_color}
+                      fondo_campos={fondo_campos}
                     />
                   }
                   fileName={`${participante.cedula}`}

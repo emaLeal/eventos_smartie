@@ -27,7 +27,16 @@ async function getEventoData(id) {
 export default async function CertificadosPage({ params }) {
   const { id } = params;
   const data = await getParticipantesData(id);
-  const { nombre_evento, empresa, foto_evento } = await getEventoData(id);
+  const {
+    nombre_evento,
+    empresa,
+    foto_evento,
+    foto_empresa,
+    fondo_color,
+    fuente_color,
+    borde_color,
+    fondo_campos,
+  } = await getEventoData(id);
   const formatedUrlPhoto = foto_evento.replaceAll(" ", "%20");
   const urlImage = `https://admin.smartie.com.co/api/foto${formatedUrlPhoto}`;
   console.log(urlImage);
@@ -53,6 +62,11 @@ export default async function CertificadosPage({ params }) {
           participantes={data.data}
           nombre_empresa={empresa}
           nombre_evento={nombre_evento}
+          foto_empresa={foto_empresa}
+          fondo_color={fondo_color}
+          fuente_color={fuente_color}
+          borde_color={borde_color}
+          fondo_campos={fondo_campos}
         />
       </div>
     </>

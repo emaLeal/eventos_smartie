@@ -10,45 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { useRef } from "react";
 import QRCode from "qrcode";
-
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    padding: 1,
-    backgroundColor: "lightblue",
-  },
-  section: {
-    margin: 2,
-    padding: 2,
-    flexGrow: 1,
-  },
-  title: {
-    fontSize: 4,
-    fontFamily: "Open Sans",
-    textAlign: "center",
-    fontWeight: "600",
-    marginBottom: 3,
-  },
-  text: {
-    fontSize: 12,
-  },
-  listItem: {
-    backgroundColor: "white",
-    paddingLeft: 1,
-    paddingRight: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderRadius: "200%",
-    fontSize: 4,
-    marginBottom: 1,
-  },
-  qrDiv: {
-    padding: 2,
-    border: 3,
-    marginTop: 4,
-    borderColor: "black",
-  },
-});
+import "primeicons/primeicons.css";
 
 Font.register({
   family: "Open Sans",
@@ -63,7 +25,78 @@ Font.register({
   ],
 });
 
-const Template = ({ participante, nombre_evento, nombre_empresa }) => {
+const calculateLuminance = (hex) => {
+  // Convierte el color hex a RGB
+  const rgb = parseInt(hex.slice(1), 16); // Remueve el '#' y convierte a número
+  const r = (rgb >> 16) & 255;
+  const g = (rgb >> 8) & 255;
+  const b = rgb & 255;
+
+  // Normaliza los valores RGB a [0, 1]
+  const [rNorm, gNorm, bNorm] = [r, g, b].map((v) => v / 255);
+
+  // Calcula la luminancia usando una fórmula estándar
+  const luminance = 0.299 * rNorm + 0.587 * gNorm + 0.114 * bNorm;
+  return luminance;
+};
+
+const Template = ({
+  participante,
+  nombre_evento,
+  nombre_empresa,
+  foto_empresa,
+  fondo_color,
+  fuente_color,
+  borde_color,
+  fondo_campos,
+}) => {
+  const luminance = calculateLuminance(fondo_campos);
+  const nombreImg = luminance < 0.5 ? "/usuario.png" : "/usuario-light.png";
+  const cargoImg = luminance < 0.5 ? "/cargo.png" : "/cargo-light.png";
+  const cedulaImg =
+    luminance < 0.5
+      ? "/clip-de-tarjeta-de-identificacion-alt.png"
+      : "/clip-de-tarjeta-de-identificacion-alt-light.png";
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: "column",
+      padding: 1,
+      backgroundColor: fondo_color,
+    },
+    section: {
+      margin: 2,
+      padding: 2,
+      flexGrow: 1,
+    },
+    title: {
+      fontSize: 4,
+      fontFamily: "Open Sans",
+      textAlign: "center",
+      fontWeight: "600",
+      marginBottom: 3,
+    },
+    text: {
+      fontSize: 12,
+    },
+    listItem: {
+      backgroundColor: fondo_campos,
+      paddingLeft: 1,
+      color: fuente_color,
+      paddingRight: 1,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      borderRadius: "200%",
+      fontSize: 4,
+      marginBottom: 1,
+    },
+    qrDiv: {
+      padding: 2,
+      border: 3,
+      marginTop: 4,
+      borderColor: borde_color,
+    },
+  });
+
   const invitacionLink = `${encodeURIComponent(
     JSON.stringify({ id: participante.id, nombre: participante.nombre })
   )}`;
@@ -80,7 +113,11 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Image src="/logo.png" alt="logo" style={{ width: 5, height: 2 }} />
+            <Image
+              src={foto_empresa}
+              alt="logo"
+              style={{ width: 5, height: 2 }}
+            />
             <Text style={{ fontSize: 3, color: "gray" }}>{nombre_empresa}</Text>
           </View>
           <Text style={styles.title}>{nombre_evento}</Text>
@@ -88,7 +125,7 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
             <View style={styles.listItem}>
               <View style={{ flexDirection: "row" }}>
                 <Image
-                  src={"/usuario.png"}
+                  src={nombreImg}
                   alt="logo usuario"
                   style={{ width: 3, height: 3, marginTop: 1 }}
                 />
@@ -96,12 +133,12 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
                   Nombre:{" "}
                 </Text>
               </View>
-              <Text>{participante.nombre}</Text>
+              <Text style={{ fontSize: 3 }}>{participante.nombre}</Text>
             </View>
             <View style={styles.listItem}>
               <View style={{ flexDirection: "row" }}>
                 <Image
-                  src={"/clip-de-tarjeta-de-identificacion-alt.png"}
+                  src={cedulaImg}
                   alt="logo usuario"
                   style={{ width: 3, height: 3, marginTop: 1 }}
                 />
@@ -115,7 +152,7 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
             <View style={styles.listItem}>
               <View style={{ flexDirection: "row" }}>
                 <Image
-                  src="/cargo.png"
+                  src={cargoImg}
                   alt="Cargo de Usuario"
                   style={{ width: 3, height: 3, marginTop: 1 }}
                 />
